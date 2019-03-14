@@ -1,0 +1,26 @@
+version: '3'
+services:
+  web:
+    build: .
+    expose:
+     - "8080"
+    networks: 
+      - app-network
+      - redis-network
+  redis:
+    image: "redis:alpine"
+    networks: 
+      - redis-network
+  nginx:
+    image: nginx:latest
+    container_name: production_nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8080:80"
+      - "8081:443"
+    networks: 
+      - app-network
+networks: 
+  app-network:
+  redis-network:
