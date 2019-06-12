@@ -1,9 +1,7 @@
 version: '3'
 services:
   web:
-    # build: .
-    # image: "florentinth/docker-compose-example:latest"
-    image: "docker-compose-example:latest"
+    build: .
     expose:
      - "8080"
     networks: 
