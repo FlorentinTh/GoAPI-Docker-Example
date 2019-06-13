@@ -8,5 +8,5 @@ docker-compose -f "docker-compose.yml" up -d --build
 
 * Access to the sample page : 
 ```
-http://localhost:8080/hello
+http://localhost/hello
 ```
