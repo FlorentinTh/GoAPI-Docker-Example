@@ -29,9 +29,14 @@ func main() {
 	fmt.Println(pong, err)
 	err = client.Set("hit", "0", 0).Err()
 	ws := new(restful.WebService)
+	ws.Route(ws.GET("/").To(root))
 	ws.Route(ws.GET("/hello").To(hello))
 	restful.Add(ws)
 	log.Fatal(http.ListenAndServe(":8080", nil))
+}
+
+func root(req *restful.Request, resp *restful.Response) {
+	io.WriteString(resp, "To see the hello world go to /hello")
 }
 
 func hello(req *restful.Request, resp *restful.Response) {
@@ -39,10 +44,9 @@ func hello(req *restful.Request, resp *restful.Response) {
 
 	if val != "" {
 		intVal, _ := strconv.Atoi(val)
-		io.WriteString(resp, "world "+val)
-		client.Set("hit", strconv.Itoa(intVal+1), 0).Err()
+		io.WriteString(resp, "world " + val)
+		client.Set("hit", strconv.Itoa(intVal + 1), 0).Err()
 	} else {
-		io.WriteString(resp, "world "+val)
-
+		io.WriteString(resp, "world " + val)
 	}
 }

@@ -3,6 +3,7 @@ services:
   goapp:
     build: .
     image: goapp:latest
+    container_name: app
     expose:
       - 8080
     networks: 
@@ -10,11 +11,12 @@ services:
       - redis
   redis:
     image: redis:5.0
+    container_name: cache
     networks: 
       - redis
   nginx:
     image: nginx:1.17
-    container_name: production_nginx
+    container_name: server
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
