@@ -1,9 +1,18 @@
-FROM golang:latest
+FROM golang:1.12 as build
 
 WORKDIR /go/src/app
+
 COPY . .
 
 RUN go get -d -v ./...
-RUN go install -v ./...
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /go/bin/goapp .
 
-CMD ["app"]
+FROM alpine:latest
+
+RUN apk --no-cache add ca-certificates
+
+WORKDIR /app/
+
+COPY --from=build /go/bin/goapp .
+
+CMD ["./goapp"]

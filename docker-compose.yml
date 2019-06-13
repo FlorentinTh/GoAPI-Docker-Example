@@ -1,26 +1,26 @@
-version: '3'
+version: '3.7'
 services:
-  web:
+  goapp:
     build: .
+    image: goapp:latest
     expose:
      - "8080"
     networks: 
-      - app-network
-      - redis-network
+      - goapp
+      - redis
   redis:
-    image: "redis:latest"
+    image: "redis:5.0"
     networks: 
-      - redis-network
+      - redis
   nginx:
-    image: nginx:latest
+    image: nginx:1.17
     container_name: production_nginx
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
-      - "8080:80"
-      - "8081:443"
+      - "80:80"
     networks: 
-      - app-network
+      - goapp
 networks: 
-  app-network:
-  redis-network:
+  goapp:
+  redis:
