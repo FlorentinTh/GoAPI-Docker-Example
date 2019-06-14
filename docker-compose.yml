@@ -8,14 +8,16 @@ services:
     expose:
       - 8080
     networks: 
-      - goapp
+      - goapp-net
+      - cache-net
+    depends_on:
       - redis
   redis:
     image: redis:5.0
     container_name: cache
     restart: always
     networks: 
-      - redis
+      - cache-net
   nginx:
     image: nginx:1.17
     container_name: server
@@ -25,7 +27,9 @@ services:
     ports:
       - 80:80
     networks: 
-      - goapp
+      - goapp-net
 networks: 
-  goapp:
-  redis:
+  goapp-net:
+    name: goapp-net
+  cache-net:
+    name: cache-net

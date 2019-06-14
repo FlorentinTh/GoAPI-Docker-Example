@@ -11,10 +11,6 @@ import (
 	"github.com/go-redis/redis"
 )
 
-// This example shows the minimal code needed to get a restful.WebService working.
-//
-// GET http://localhost:8080/hello
-
 var client *redis.Client
 
 func main() {
@@ -28,10 +24,14 @@ func main() {
 	pong, err := client.Ping().Result()
 	fmt.Println(pong, err)
 	err = client.Set("hit", "0", 0).Err()
+
 	ws := new(restful.WebService)
+
 	ws.Route(ws.GET("/").To(root))
 	ws.Route(ws.GET("/hello").To(hello))
+
 	restful.Add(ws)
+	
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
